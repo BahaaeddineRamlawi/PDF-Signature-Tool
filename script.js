@@ -25,7 +25,7 @@ let sigIdCounter = 0;
 
 prevBtn.textContent = "← Previous";
 nextBtn.textContent = "Next →";
-addSignatureBtn.textContent = "➕ Add Signature";
+addSignatureBtn.textContent = "Add Signature";
 prevBtn.disabled = true;
 nextBtn.disabled = true;
 addSignatureBtn.disabled = true;
@@ -117,27 +117,35 @@ function createSignatureElement(sig) {
   wrapper.appendChild(delBtn);
   canvasContainer.appendChild(wrapper);
 
-  // === DRAG START ===
-  wrapper.addEventListener("mousedown", (e) => {
+  // === DRAG HANDLERS ===
+  function startDrag(e, isTouch = false) {
     if (e.target === delBtn) return;
     activeSigId = sig.id;
     isDragging = true;
-    offsetX = e.offsetX;
-    offsetY = e.offsetY;
+
+    const point = isTouch ? e.touches[0] : e;
+    const rect = wrapper.getBoundingClientRect();
+    offsetX = point.clientX - rect.left;
+    offsetY = point.clientY - rect.top;
 
     sig.interacted = true;
     wrapper.style.backgroundColor = "transparent";
-  });
+  }
 
-  // === DRAG MOVE ===
-  window.addEventListener("mousemove", (e) => {
+  function dragMove(e, isTouch = false) {
     if (!isDragging || activeSigId !== sig.id) return;
+
+    const point = isTouch ? e.touches[0] : e;
     const rect = canvas.getBoundingClientRect();
+
     const scaleX = canvas.width / rect.width;
     const scaleY = canvas.height / rect.height;
 
-    let newLeft = (e.clientX - rect.left) * scaleX - offsetX * scaleX;
-    let newTop = (e.clientY - rect.top) * scaleY - offsetY * scaleY;
+    let mouseX = point.clientX - rect.left;
+    let mouseY = point.clientY - rect.top;
+
+    let newLeft = mouseX * scaleX - offsetX * scaleX;
+    let newTop = mouseY * scaleY - offsetY * scaleY;
 
     newLeft = Math.min(
       Math.max(0, newLeft),
@@ -157,13 +165,31 @@ function createSignatureElement(sig) {
       s.left = newLeft;
       s.top = newTop;
     }
-  });
+  }
 
-  // === DRAG END ===
-  window.addEventListener("mouseup", () => {
+  function endDrag() {
     isDragging = false;
     activeSigId = null;
+  }
+
+  // 🖱️ Mouse
+  wrapper.addEventListener("mousedown", (e) => startDrag(e, false));
+  window.addEventListener("mousemove", (e) => dragMove(e, false));
+  window.addEventListener("mouseup", endDrag);
+
+  // 📱 Touch
+  wrapper.addEventListener("touchstart", (e) => startDrag(e, true), {
+    passive: false,
   });
+  window.addEventListener(
+    "touchmove",
+    (e) => {
+      dragMove(e, true);
+      if (isDragging) e.preventDefault();
+    },
+    { passive: false }
+  );
+  window.addEventListener("touchend", endDrag);
 
   // === RESIZE ===
   wrapper.addEventListener("wheel", (e) => {
@@ -184,7 +210,7 @@ function createSignatureElement(sig) {
     }
   });
 
-  // === DELETE SIGNATURE ===
+  // === DELETE ===
   delBtn.addEventListener("click", (e) => {
     e.stopPropagation();
     wrapper.remove();
@@ -262,7 +288,7 @@ prevBtn.addEventListener("click", async () => {
   }
 });
 
-// === DOWNLOAD SIGNED PDF ===
+// === DOWNLOAD PDF ===
 downloadBtn.addEventListener("click", async () => {
   if (!pdfBytes || !signatureSrc) return;
 
@@ -288,7 +314,6 @@ downloadBtn.addEventListener("click", async () => {
 
       const imgWidth = sig.width * xScale;
       const imgHeight = (sig.width / pngImage.width) * pngImage.height * xScale;
-
       const y = pdfHeight - yFromTop - imgHeight;
 
       page.drawImage(pngImage, {
