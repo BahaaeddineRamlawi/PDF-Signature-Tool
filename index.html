@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>PDF Signature Tool</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>🖋️ PDF Signature Tool</h1>
+        <p>Upload a PDF and your signature to sign documents easily</p>
+      </header>
+
+      <div class="upload-section">
+        <label>
+          📄 Upload PDF
+          <input type="file" id="pdfUpload" accept="application/pdf,image/*" />
+        </label>
+        <label>
+          ✍️ Upload Signature (PNG)
+          <input type="file" id="signatureUpload" accept="image/png" />
+        </label>
+      </div>
+
+      <div id="pdfContainer">
+        <canvas id="pdfCanvas"></canvas>
+      </div>
+
+      <button id="downloadBtn" disabled>⬇️ Download Signed PDF</button>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.14.305/pdf.min.js"></script>
+    <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>

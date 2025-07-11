@@ -1,0 +1,200 @@
+/* Reset */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Base Styles */
+body {
+  font-family: "Segoe UI", sans-serif;
+  background: #f3f4f6;
+  color: #333;
+  padding: 1rem;
+}
+
+.container {
+  max-width: 700px;
+  margin: auto;
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+header h1 {
+  font-size: 1.8rem;
+  color: #1f2937;
+}
+
+header p {
+  color: #6b7280;
+  margin-top: 0.5rem;
+}
+
+.upload-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.upload-section label {
+  display: flex;
+  flex-direction: column;
+  font-weight: 600;
+  background: #e5e7eb;
+  padding: 0.8rem;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.upload-section input {
+  margin-top: 0.5rem;
+}
+
+/* PDF Preview */
+#pdfContainer {
+  position: relative;
+  width: 100%;
+  border: 1px solid #d1d5db;
+  margin-bottom: 1rem;
+  overflow: auto;
+}
+
+#pdfCanvas {
+  width: 100%;
+  display: block;
+  border: 2px solid #2563eb;
+}
+
+#signatureImage {
+  position: absolute;
+  width: 100px;
+  top: 50px;
+  left: 50px;
+  cursor: move;
+  display: none;
+  touch-action: none;
+}
+
+/* Button */
+#downloadBtn {
+  width: 100%;
+  padding: 0.8rem;
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+#downloadBtn:disabled {
+  background: #9ca3af;
+  cursor: not-allowed;
+}
+
+#downloadBtn:hover:not(:disabled) {
+  background: #1d4ed8;
+}
+
+.signature {
+  position: absolute;
+  cursor: move;
+  background-color: rgba(255, 0, 0, 0.2);
+  user-select: none;
+  touch-action: none;
+}
+
+.signature-wrapper {
+  user-select: none;
+  touch-action: none;
+  border-radius: 6px;
+  box-sizing: border-box;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.2s ease;
+}
+
+.signature-wrapper button {
+  font-size: 1rem;
+  line-height: 1rem;
+  font-weight: bold;
+  text-align: center;
+  padding: 0;
+  user-select: none;
+}
+
+/* Buttons container */
+.buttons-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin: 1rem 0 1.5rem 0;
+  flex-wrap: wrap;
+}
+
+/* Common button styles */
+.buttons-container button {
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(37, 99, 235, 0.4);
+  transition: background-color 0.3s ease;
+  min-width: 100px;
+}
+
+.buttons-container button:disabled {
+  background-color: #9ca3af;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.buttons-container button:hover:not(:disabled) {
+  background-color: #1d4ed8;
+}
+
+/* Position Add button centered between Prev and Next */
+#addSignatureBtn {
+  order: 0;
+}
+
+/* Prev and Next buttons align on sides */
+#prevBtn {
+  order: -1;
+}
+
+#nextBtn {
+  order: 1;
+}
+
+/* Responsive: stack vertically on small screens */
+@media (max-width: 400px) {
+  .buttons-container {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .buttons-container button {
+    min-width: auto;
+    width: 100%;
+  }
+}
+
+/* Responsive */
+@media (max-width: 500px) {
+  .upload-section label {
+    font-size: 0.95rem;
+  }
+}
