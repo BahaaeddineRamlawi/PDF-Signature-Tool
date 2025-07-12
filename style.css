@@ -1,11 +1,9 @@
-/* Reset */
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-/* Base Styles */
 body {
   font-family: "Segoe UI", sans-serif;
   background: #f3f4f6;
@@ -20,7 +18,7 @@ body {
   max-width: 700px;
   background: white;
   border-radius: 12px;
-  padding: 1.5rem;
+  padding: 2.5rem;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
 }
 
@@ -60,11 +58,9 @@ header p {
   margin-top: 0.5rem;
 }
 
-/* PDF Preview */
 #pdfContainer {
   position: relative;
   width: 100%;
-  border: 1px solid #d1d5db;
   margin-bottom: 1rem;
   overflow: auto;
 }
